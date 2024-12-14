@@ -1,18 +1,5 @@
 open System.Text.RegularExpressions
 
-let testLines = [|
-    "MMMSXXMASM"
-    "MSAMXMSMSA"
-    "AMXSXMAAMM"
-    "MSAMASMSMX"
-    "XMASAMXAMM"
-    "XXAMMXXAMA"
-    "SMSMSASXSS"
-    "SAXAMASAAA"
-    "MAMMMXMMMM"
-    "MXMXAXMASX"
-|]
-
 let lines = System.IO.File.ReadAllLines("input/2024/04.txt")
 
 type Point = { X: int; Y: int }
@@ -39,10 +26,13 @@ module Puzzle1 =
         let ys = offsetPointElements point.Y (snd offsets)
         let points = (xs, ys) ||> Array.map2 (fun x y -> (x, y))
 
-        let isOutOfBounds x upperBound = x < 0 || x >= upperBound
+        let isOutOfBounds point =
+            let isAxisOutOfBounds x upperBound = x < 0 || x >= upperBound
 
-        if (points |> Array.exists (fun point -> (isOutOfBounds (fst point) lines[0].Length) ||
-                                                 (isOutOfBounds (snd point) lines.Length)))
+            (isAxisOutOfBounds (fst point) lines[0].Length) ||
+            (isAxisOutOfBounds (snd point) lines.Length)
+
+        if points |> Array.exists isOutOfBounds
         then false
         else
             points
@@ -84,8 +74,5 @@ module Puzzle2 =
         |> aPoints
         |> countValid lines
 
-Puzzle1.run testLines |> printfn "%d" // 18
-Puzzle1.run lines     |> printfn "%d" // 2536
-
-Puzzle2.run testLines |> printfn "%d" // 9
-Puzzle2.run lines     |> printfn "%d" // 1875
+Puzzle1.run lines |> printfn "%d" // 2536
+Puzzle2.run lines |> printfn "%d" // 1875

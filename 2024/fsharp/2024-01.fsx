@@ -1,5 +1,3 @@
-// https://adventofcode.com/2024/day/1
-
 let input = System.IO.File.ReadAllLines("input/2024/01.txt")
 
 let prepareInput (input: string array) : int array array =

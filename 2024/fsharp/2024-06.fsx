@@ -10,7 +10,7 @@ let origin =
     let textIndex = text.Replace(NewLine, String.Empty).IndexOf("^")
     let column = textIndex / lines[0].Length
     let row = textIndex % lines[0].Length
-    (column, row) // Returns (33,56) for the given input.
+    (column, row)
 
 module SharedLogic =
     [<Literal>]
@@ -93,7 +93,7 @@ module Puzzle2 =
         match nextChar state with
         | None -> false
         | Some Obstacle ->
-            if state |> isLooping
+            if isLooping state
             then true
             else state |> logObstacle |> turnRight |> check
         | Some _ -> state |> moveToNext |> check

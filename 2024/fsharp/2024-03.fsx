@@ -1,10 +1,6 @@
-// https://adventofcode.com/2024/day/3
-
 open System
 open System.Text.RegularExpressions
 
-let testInput1 = "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"
-let testInput2 = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
 let input = System.IO.File.ReadAllText("input/2024/03.txt").TrimEnd()
 
 Regex.Matches(input, "mul\((\d{1,3}),(\d{1,3})\)")

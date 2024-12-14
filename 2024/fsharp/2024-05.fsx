@@ -1,6 +1,5 @@
 open System
 open System.Diagnostics
-open System.Globalization
 
 let text = System.IO.File.ReadAllText("input/2024/05.txt").TrimEnd()
 

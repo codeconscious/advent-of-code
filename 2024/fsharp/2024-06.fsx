@@ -99,9 +99,9 @@ module Puzzle2 =
         | Some _ -> state |> moveToNext |> check
 
     let private checkGridVariant coords =
-        grid[coords.Column, coords.Row] <- Obstacle // Temporary mutation for performance.
+        grid[coords.Column, coords.Row] <- Obstacle // Mutation for performance.
         let result = check initialState
-        grid[coords.Column, coords.Row] <- EmptyCell // Must reset to its original value!
+        grid[coords.Column, coords.Row] <- EmptyCell // Must revert it back!
         result
 
     let run visitedCoords =
@@ -125,7 +125,6 @@ let solvePuzzles () =
 
     puzzle1State
     |> _.Visited
-    // |> Set.remove { Column = fst startIndex; Row = snd startIndex } // Seems to have no effect...
     |> Puzzle2.run
     |> printfn "%d" // 2262
 

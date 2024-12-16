@@ -54,15 +54,16 @@ module Part2 =
             let yOffset, xOffset = test.Y - control.Y, test.X - control.X
             let generateViaOffsets = generator yOffset xOffset
             let antinodes =
-                [| (-); (+) |]
-                |> Array.map (fun o -> control |> Array.unfold (generateViaOffsets o))
-                |> Array.collect id
+                [ (-); (+) ]
+                |> List.map (fun o -> control |> List.unfold (generateViaOffsets o))
+                |> List.collect id
             Some [| control; test; yield! antinodes |]
 
     antennaCells
     |> Array.groupBy (fun c -> grid[c.Y, c.X])
     |> Array.map (fun (_, c) -> (c, c) ||> Array.allPairs |> Array.choose generateAntinodes)
-    |> Array.collect (fun a -> a |> Array.collect id)
+    |> Array.collect id
+    |> Array.collect id
     |> Array.distinct
     |> _.Length
     |> printfn "%d" // 1293

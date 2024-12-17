@@ -1,6 +1,6 @@
 open System
 
-let grid =
+let grid = // Grid indexing references columns first -- e.g., grid[y,x].
     System.IO.File.ReadAllLines("input/2024/08.txt")
     |> Array.map _.ToCharArray()
     |> array2D
@@ -41,7 +41,7 @@ module Part1 =
     |> printfn "%d" // 359
 
 module Part2 =
-    let generateAntinodes (control: Cell, test: Cell) =
+    let generatePairAntinodes (control: Cell, test: Cell) =
         let generator yOffset xOffset operator cell =
              if isOutOfBounds cell
              then None
@@ -52,17 +52,22 @@ module Part2 =
         then None
         else
             let yOffset, xOffset = test.Y - control.Y, test.X - control.X
-            let generateViaOffsets = generator yOffset xOffset
+            let generatorWithOffsets = generator yOffset xOffset
             let antinodes =
                 [ (-); (+) ]
-                |> List.map (fun o -> control |> List.unfold (generateViaOffsets o))
+                |> List.map (fun operator -> control |> List.unfold (generatorWithOffsets operator))
                 |> List.collect id
             Some [| control; test; yield! antinodes |]
 
+    let generateAntinodes (_, c) =
+        (c, c)
+        ||> Array.allPairs
+        |> Array.choose generatePairAntinodes
+        |> Array.collect id
+
     antennaCells
     |> Array.groupBy (fun c -> grid[c.Y, c.X])
-    |> Array.map (fun (_, c) -> (c, c) ||> Array.allPairs |> Array.choose generateAntinodes)
-    |> Array.collect id
+    |> Array.map generateAntinodes
     |> Array.collect id
     |> Array.distinct
     |> _.Length

@@ -20,12 +20,12 @@ let isOutOfBounds cell =
     cell.Y >= Array2D.length1 grid ||
     cell.X >= Array2D.length2 grid
 
+let toDuplicateArrayPair x = (x, x) ||> Array.allPairs
+
 module Part1 =
     let verifyAntinode (control: Cell, test: Cell) =
-        if control = test
-        then None
-        elif grid[control.Y, control.X] <> grid[test.Y, test.X]
-        then None
+        if control = test then None
+        elif grid[control.Y, control.X] <> grid[test.Y, test.X] then None
         else
             let yOffset, xOffset = (test.Y - control.Y, test.X - control.X)
             let antiNodeCell = { Y = control.Y - yOffset; X = control.X - xOffset }
@@ -33,8 +33,8 @@ module Part1 =
             then None
             else Some antiNodeCell
 
-    (antennaCells, antennaCells)
-    ||> Array.allPairs
+    antennaCells
+    |> toDuplicateArrayPair
     |> Array.choose verifyAntinode
     |> Array.distinct
     |> _.Length
@@ -59,9 +59,9 @@ module Part2 =
                 |> List.collect id
             Some [| control; test; yield! antinodes |]
 
-    let generateAntinodes (_, c) =
-        (c, c)
-        ||> Array.allPairs
+    let generateAntinodes (_, cells) =
+        cells
+        |> toDuplicateArrayPair
         |> Array.choose generatePairAntinodes
         |> Array.collect id
 

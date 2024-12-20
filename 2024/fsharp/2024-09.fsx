@@ -49,12 +49,12 @@ module Part2 = // This one took a while and has poor performance. Might revisit 
     type Range = { Start: int; End: int } // End is intended to be inclusive.
 
     let defragGroupwise (blocks: Block array) : Block array =
-        let lastDataGroupRange (blocks: Block array) (exclusions: Block list) : Range option =
+        let lastDataGroupRange (blocks: Block array) (exclusions: Block Set) : Range option =
             let last : int option =
                 blocks
                 |> Array.tryFindIndexBack (fun x ->
                     x.IsData &&
-                    not (exclusions |> List.exists (fun y -> y = x))) // exists faster than contains?
+                    not (exclusions |> Set.exists (fun y -> y = x))) // exists faster than contains?
 
             match last with
             | None -> None
@@ -85,7 +85,7 @@ module Part2 = // This one took a while and has poor performance. Might revisit 
             |> Array.map (toRange blocks)
             |> Array.tryFind (fun x -> measure x >= length)
 
-        let rec defrag blocks (processedBlocks: Block list) : Block array =
+        let rec defrag (blocks: Block array) (processedBlocks: Block Set) : Block array =
             match lastDataGroupRange blocks processedBlocks with
             | None -> blocks
             | Some dataRange ->
@@ -95,14 +95,14 @@ module Part2 = // This one took a while and has poor performance. Might revisit 
                 | Some emptyRange ->
                     let dataBlock = blocks[dataRange.Start]
                     if emptyRange.Start > dataRange.Start ||
-                       processedBlocks |> List.contains dataBlock
+                       processedBlocks |> Set.contains dataBlock
                     then blocks
                     else
                         Array.fill blocks emptyRange.Start length dataBlock
                         Array.fill blocks dataRange.Start length Empty
-                        defrag blocks (processedBlocks @ [dataBlock])
+                        defrag blocks (Set.add dataBlock processedBlocks)
 
-        defrag blocks []
+        defrag blocks Set.empty
 
 // let test = "1313165" // Helpful custom test case discovered online.
 

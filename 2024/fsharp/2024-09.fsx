@@ -1,4 +1,5 @@
 open System
+open System.Diagnostics
 open System.Linq
 
 let input = System.IO.File.ReadAllText("input/2024/09.txt").TrimEnd()
@@ -106,14 +107,19 @@ module Part2 = // This one took a while and has poor performance. Might revisit 
 
 // let test = "1313165" // Helpful custom test case discovered online.
 
-input
-|> toBlocks
-|> Part1.defragSingle
-|> checksum
-|> printfn "%d" // 6519155389266
+let measureTime label f =
+    let startTime = Stopwatch.GetTimestamp()
+    let result = f ()
+    printfn $"""%s{label}: %d{result} ({Stopwatch.GetElapsedTime(startTime)})"""
 
-input
-|> toBlocks
-|> Part2.defragGroupwise
-|> checksum
-|> printfn "%d" // 6547228115826
+measureTime "前" (fun _ ->
+    input
+    |> toBlocks
+    |> Part1.defragSingle
+    |> checksum) // 6519155389266
+
+measureTime "後" (fun _ ->
+    input
+    |> toBlocks
+    |> Part2.defragGroupwise
+    |> checksum) // 6547228115826

@@ -1,5 +1,6 @@
 open System
-open System.Diagnostics
+
+#r "nuget: CodeConscious.Startwatch, 0.0.3"
 
 let text = System.IO.File.ReadAllText("input/2024/05.txt").TrimEnd()
 
@@ -66,9 +67,9 @@ module Puzzle2 =
         |> Array.sumBy middleValue
 
 let measureTime label f =
-    let startTime = Stopwatch.GetTimestamp()
+    let watch = Startwatch.Library.Watch()
     let result = f ()
-    printfn $"""%s{label}: %d{result} ({Stopwatch.GetElapsedTime(startTime).TotalMilliseconds.ToString("N2")}ms)"""
+    printfn $"""%s{label}: %d{result} ({watch.ElapsedFriendly})"""
 
 measureTime "前" Puzzle1.solve // 5091
-measureTime "後" Puzzle2.solve // 4681 -- nailed it on the first try! 🥳
+measureTime "後" Puzzle2.solve // 4681

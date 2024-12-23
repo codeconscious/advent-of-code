@@ -2,6 +2,8 @@ open System
 open System.Diagnostics
 open System.Linq
 
+#r "nuget: CodeConscious.Startwatch, 0.0.3"
+
 let input = System.IO.File.ReadAllText("input/2024/09.txt").TrimEnd()
 
 type Block = Empty | Data of string
@@ -108,9 +110,9 @@ module Part2 = // This one took a while and has poor performance. Might revisit 
 // let test = "1313165" // Helpful custom test case discovered online.
 
 let measureTime label f =
-    let startTime = Stopwatch.GetTimestamp()
+    let watch = Startwatch.Library.Watch()
     let result = f ()
-    printfn $"""%s{label}: %d{result} ({Stopwatch.GetElapsedTime(startTime)})"""
+    printfn $"""%s{label}: %d{result} ({watch.ElapsedFriendly})"""
 
 measureTime "前" (fun _ ->
     input
@@ -123,3 +125,5 @@ measureTime "後" (fun _ ->
     |> toBlocks
     |> Part2.defragGroupwise
     |> checksum) // 6547228115826
+
+let watch = Startwatch.Library.Watch

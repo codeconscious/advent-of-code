@@ -1,6 +1,8 @@
 open System
 open System.Diagnostics
 
+#r "nuget: CodeConscious.Startwatch, 0.0.3"
+
 let lines = System.IO.File.ReadAllLines("input/2024/07.txt")
 
 let parseInput (lines: string array) =
@@ -70,9 +72,9 @@ open Operators
 open Logic
 
 let measureTime label f =
-    let startTime = Stopwatch.GetTimestamp()
+    let watch = Startwatch.Library.Watch()
     let result = f ()
-    printfn $"""%s{label}: %d{result} ({Stopwatch.GetElapsedTime(startTime).TotalMilliseconds.ToString("N2")}ms)"""
+    printfn $"""%s{label}: %d{result} ({watch.ElapsedFriendly})"""
 
 measureTime "前" (fun _ -> solve operatorsPart1) // A: 1985268524462
 measureTime "後" (fun _ -> solve operatorsPart2) // B: 150077710195188

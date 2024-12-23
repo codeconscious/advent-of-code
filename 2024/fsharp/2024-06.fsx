@@ -1,6 +1,7 @@
 open System
-open System.Diagnostics
 open type System.Environment
+
+#r "nuget: CodeConscious.Startwatch, 0.0.3"
 
 let text = System.IO.File.ReadAllText("input/2024/06.txt").TrimEnd()
 let lines = text.Split NewLine
@@ -110,10 +111,9 @@ module Puzzle2 =
         |> _.Count
 
 let measureTime f =
-    let startTime = Stopwatch.GetTimestamp()
-    let result = f ()
-    printfn $"""Done in {Stopwatch.GetElapsedTime(startTime).TotalMilliseconds.ToString("N2")}ms"""
-    result
+    let watch = Startwatch.Library.Watch()
+    f ()
+    printfn $"""Done in {watch.ElapsedFriendly}."""
 
 let solvePuzzles () =
     let puzzle1State = Puzzle1.run
@@ -128,4 +128,4 @@ let solvePuzzles () =
     |> Puzzle2.run
     |> printfn "%d" // 2262
 
-solvePuzzles |> measureTime
+measureTime (fun _ -> solvePuzzles ())

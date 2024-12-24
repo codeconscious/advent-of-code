@@ -14,7 +14,7 @@ let puzzle1 (input: int array array) =
 input
 |> prepareInput
 |> puzzle1
-|> printfn "%d" // 2166959
+|> printfn "%d"
 
 let puzzle2 (data: int array array) : int =
     let left = data[0]
@@ -32,4 +32,4 @@ input
 |> prepareInput
 |> Array.transpose
 |> puzzle2
-|> printfn "%d" // 23741109
+|> printfn "%d"

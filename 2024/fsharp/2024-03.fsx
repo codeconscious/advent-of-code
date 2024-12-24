@@ -7,7 +7,7 @@ Regex.Matches(input, "mul\((\d{1,3}),(\d{1,3})\)")
 |> Seq.map (fun m -> Int32.Parse m.Groups[1].Value *
                      Int32.Parse m.Groups[2].Value)
 |> Seq.sum
-|> printfn "%d" // 167090022
+|> printfn "%d"
 
 type Instruction = Disable | Enable | Pair of int * int
 type Memo = { Enabled: bool; Total: int }
@@ -31,6 +31,6 @@ Regex.Matches(input, "don't\(\)|do\(\)|mul\((\d{1,3}),(\d{1,3})\)")
 |> Seq.map parseGroup
 |> Seq.fold folder { Enabled = true; Total = 0 }
 |> _.Total
-|> printfn "%A" // 89823704
+|> printfn "%A"
 
 

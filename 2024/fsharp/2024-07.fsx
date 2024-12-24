@@ -76,5 +76,5 @@ let measureTime label f =
     let result = f ()
     printfn $"""%s{label}: %d{result} ({watch.ElapsedFriendly})"""
 
-measureTime "前" (fun _ -> solve operatorsPart1) // A: 1985268524462
-measureTime "後" (fun _ -> solve operatorsPart2) // B: 150077710195188
+measureTime "前" (fun _ -> solve operatorsPart1)
+measureTime "後" (fun _ -> solve operatorsPart2)

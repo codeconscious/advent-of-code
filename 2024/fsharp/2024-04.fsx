@@ -81,5 +81,5 @@ let measureTime label f =
     let result = f ()
     printfn $"""%s{label}: %d{result} ({watch.ElapsedFriendly})"""
 
-measureTime "前" (fun _ -> Puzzle1.run lines) // 2536
-measureTime "後" (fun _ -> Puzzle2.run lines) // 1875
+measureTime "前" (fun _ -> Puzzle1.run lines)
+measureTime "後" (fun _ -> Puzzle2.run lines)

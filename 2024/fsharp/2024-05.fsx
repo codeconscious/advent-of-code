@@ -1,6 +1,6 @@
 open System
 
-#r "nuget: CodeConscious.Startwatch, 0.0.3"
+#r "nuget: CodeConscious.Startwatch, 1.0.0-alpha"
 
 let text = System.IO.File.ReadAllText("input/2024/05.txt").TrimEnd()
 

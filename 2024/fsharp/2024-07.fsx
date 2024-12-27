@@ -1,7 +1,7 @@
 open System
 open System.Diagnostics
 
-#r "nuget: CodeConscious.Startwatch, 0.0.3"
+#r "nuget: CodeConscious.Startwatch, 1.0.0-alpha"
 
 let lines = System.IO.File.ReadAllLines("input/2024/07.txt")
 

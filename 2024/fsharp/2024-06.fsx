@@ -1,7 +1,7 @@
 open System
 open type System.Environment
 
-#r "nuget: CodeConscious.Startwatch, 1.0.0-alpha"
+#r "nuget: CodeConscious.Startwatch, 1.0.0"
 
 let text = System.IO.File.ReadAllText("input/2024/06.txt").TrimEnd()
 let lines = text.Split NewLine

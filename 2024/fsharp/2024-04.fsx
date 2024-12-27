@@ -1,6 +1,6 @@
 open System.Text.RegularExpressions
 
-#r "nuget: CodeConscious.Startwatch, 1.0.0-alpha"
+#r "nuget: CodeConscious.Startwatch, 1.0.0"
 
 let lines = System.IO.File.ReadAllLines("input/2024/04.txt")
 

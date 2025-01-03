@@ -1,7 +1,7 @@
 open System
 open type System.Environment
 
-#r "nuget: CodeConscious.Startwatch, 0.0.3"
+#r "nuget: CodeConscious.Startwatch, 1.0.0"
 
 let text = System.IO.File.ReadAllText("input/2024/06.txt").TrimEnd()
 let lines = text.Split NewLine
@@ -102,7 +102,7 @@ module Puzzle2 =
     let private checkGridVariant coords =
         grid[coords.Column, coords.Row] <- Obstacle // Mutation for performance.
         let result = check initialState
-        grid[coords.Column, coords.Row] <- EmptyCell // Must revert it back!
+        grid[coords.Column, coords.Row] <- EmptyCell // Must revert it!
         result
 
     let run visitedCoords =
@@ -121,11 +121,11 @@ let solvePuzzles () =
     puzzle1State
     |> _.Visited
     |> _.Count
-    |> printfn "%d" // 5534
+    |> printfn "%d"
 
     puzzle1State
     |> _.Visited
     |> Puzzle2.run
-    |> printfn "%d" // 2262
+    |> printfn "%d"
 
 measureTime (fun _ -> solvePuzzles ())

@@ -39,5 +39,5 @@ module Puzzles =
     let puzzle1 = fullyValid.Length
     let puzzle2 = fullyValid.Length + dampenedValid.Length
 
-Puzzles.puzzle1 |> printfn "%d" // 213
-Puzzles.puzzle2 |> printfn "%d" // 285
+Puzzles.puzzle1 |> printfn "%d"
+Puzzles.puzzle2 |> printfn "%d"

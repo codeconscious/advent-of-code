@@ -1,8 +1,7 @@
 open System
-open System.Diagnostics
 open System.Linq
 
-#r "nuget: CodeConscious.Startwatch, 0.0.3"
+#r "nuget: CodeConscious.Startwatch, 1.0.0"
 
 let input = System.IO.File.ReadAllText("input/2024/09.txt").TrimEnd()
 
@@ -107,8 +106,6 @@ module Part2 = // This one took a while and has poor performance. Might revisit 
 
         defrag blocks Set.empty
 
-// let test = "1313165" // Helpful custom test case discovered online.
-
 let measureTime label f =
     let watch = Startwatch.Library.Watch()
     let result = f ()
@@ -118,12 +115,12 @@ measureTime "前" (fun _ ->
     input
     |> toBlocks
     |> Part1.defragSingle
-    |> checksum) // 6519155389266
+    |> checksum)
 
 measureTime "後" (fun _ ->
     input
     |> toBlocks
     |> Part2.defragGroupwise
-    |> checksum) // 6547228115826
+    |> checksum)
 
 let watch = Startwatch.Library.Watch

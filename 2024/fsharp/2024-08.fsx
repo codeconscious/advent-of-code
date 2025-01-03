@@ -38,7 +38,7 @@ module Part1 =
     |> Array.choose verifyAntinode
     |> Array.distinct
     |> _.Length
-    |> printfn "%d" // 359
+    |> printfn "%d"
 
 module Part2 =
     let generatePairAntinodes (control: Cell, test: Cell) =
@@ -71,4 +71,4 @@ module Part2 =
     |> Array.collect id
     |> Array.distinct
     |> _.Length
-    |> printfn "%d" // 1293
+    |> printfn "%d"

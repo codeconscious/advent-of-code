@@ -1,6 +1,6 @@
 open System
 
-#r "nuget: CodeConscious.Startwatch, 0.0.3"
+#r "nuget: CodeConscious.Startwatch, 1.0.0"
 
 let toGrid (lines: string array) : int array2d =
     lines

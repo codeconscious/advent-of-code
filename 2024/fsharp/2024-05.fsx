@@ -1,6 +1,6 @@
 open System
 
-#r "nuget: CodeConscious.Startwatch, 0.0.3"
+#r "nuget: CodeConscious.Startwatch, 1.0.0"
 
 let text = System.IO.File.ReadAllText("input/2024/05.txt").TrimEnd()
 
@@ -71,5 +71,5 @@ let measureTime label f =
     let result = f ()
     printfn $"""%s{label}: %d{result} ({watch.ElapsedFriendly})"""
 
-measureTime "前" Puzzle1.solve // 5091
-measureTime "後" Puzzle2.solve // 4681
+measureTime "前" Puzzle1.solve
+measureTime "後" Puzzle2.solve

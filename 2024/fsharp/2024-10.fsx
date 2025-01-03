@@ -14,7 +14,7 @@ type Point = { Row: int; Column: int }
 type Offset = { Y: int; X: int }
 
 module Logic =
-    let cellHeight point = grid[point.Row, point.Column]
+    let pointHeight p = grid[p.Row, p.Column]
 
     let originPoints : Point list =
         [ for y in 0..(Array2D.length1 grid)-1 do
@@ -38,15 +38,15 @@ module Logic =
         [ for i in 0..offsets.Length-1 do
           let offsetPoint = { Row = point.Row + offsets[i].Y
                               Column = point.Column + offsets[i].X }
-          if isInBounds offsetPoint && (cellHeight offsetPoint = target)
+          if isInBounds offsetPoint && (pointHeight offsetPoint = target)
           then yield offsetPoint ]
 
     let rec walk (summitTrails: Point list list) (trail: Point list) : Point list list =
         let highestPoint = trail.Head
-        if cellHeight highestPoint = 9
+        if pointHeight highestPoint = 9
         then trail :: summitTrails
         else
-            let nextHeight = cellHeight highestPoint + 1
+            let nextHeight = pointHeight highestPoint + 1
             let offsets = nextHeight |> generateOffsets highestPoint
             if offsets.IsEmpty
             then summitTrails

@@ -1,4 +1,5 @@
 input/
 Folder.DotSettings
 Folder.DotSettings.user
+.vscode/settings.json
 .fake

@@ -1,5 +1,7 @@
 open System
 
+#r "nuget: CodeConscious.Startwatch, 1.0.0"
+
 let input =
     IO.File.ReadAllText("input/2024/11.txt").TrimEnd().Split(' ')
     |> List.ofArray
@@ -21,7 +23,10 @@ let checkStone stone =
 let combinedCollect times list =
     List.fold (fun acc _ -> List.collect checkStone acc) list [1..times]
 
-input
-|> combinedCollect 25
-|> _.Length
-|> printfn "%d"
+let measureTime label f =
+    let watch = Startwatch.Library.Watch()
+    let result = f ()
+    printfn $"""%s{label}: %d{result} ({watch.ElapsedFriendly})"""
+
+measureTime "前" (fun _ -> input |> combinedCollect 25 |> _.Length)
+// measureTime "後" (fun _ -> input |> combinedCollect 75 |> _.Length)

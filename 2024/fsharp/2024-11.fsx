@@ -38,7 +38,10 @@ let checkStone (stone: int64) =
         result
 
 let combinedCollect times list =
-    List.fold (fun acc _ -> List.collect checkStone acc) list [1..times]
+    printfn $"Iterations: " // TODO: Delete after debugging.
+    List.fold (fun acc i ->
+        printf $"#{i} " // TODO: Delete after debugging.
+        List.collect checkStone acc) list [1..times]
 
 let measureTime label f =
     let watch = Startwatch.Library.Watch()

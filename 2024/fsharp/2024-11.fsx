@@ -5,20 +5,28 @@ open System
 let input =
     IO.File.ReadAllText("input/2024/11.txt").TrimEnd().Split(' ')
     |> List.ofArray
+    |> List.map int64
 
-let checkStone stone =
-    let cleanString s = UInt64.Parse(s) |> string
+let digitCount (n: int64) =
+    if n < 0L then failwith "Input must be a non-negative number"
+    else
+        let rec countDigits value count =
+            if value < 10L then count
+            else countDigits (value / 10L) (count + 1)
+        countDigits n 1
+
+let isEven i = i % 2 = 0
+
+let checkStone (stone: int64) =
+    if stone < 0 then failwith $"A negative value was passed in. This is bad."
 
     match stone with
-    | "0" -> ["1"]
-    | s when s.Length % 2 = 0 ->
-        if s[0] = '-' then failwith $"Invalid data '{s}'"
-
-        let halfway = s.Length / 2
-        let left = s[..halfway - 1] |> cleanString
-        let right = s[halfway..] |> cleanString
-        [left; right]
-    | s -> [string (UInt64.Parse(s) * 2024UL)]
+    | 0L -> [1L]
+    | s when isEven(digitCount s) ->
+        let halfway = digitCount s / 2
+        let l, r = Math.DivRem(s, pown 10 halfway)
+        [l; r]
+    | s -> [s * 2024L]
 
 let combinedCollect times list =
     List.fold (fun acc _ -> List.collect checkStone acc) list [1..times]

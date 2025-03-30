@@ -1,6 +1,7 @@
 open System
 
 #r "nuget: CodeConscious.Startwatch, 1.0.0"
+open System.Collections.Generic
 
 let input =
     IO.File.ReadAllText("input/2024/11.txt").TrimEnd().Split(' ')
@@ -17,16 +18,24 @@ let digitCount (n: int64) =
 
 let isEven i = i % 2 = 0
 
+let memo = Dictionary<int64, int64 list>()
+
 let checkStone (stone: int64) =
     if stone < 0 then failwith $"A negative value was passed in. This is bad."
-
-    match stone with
-    | 0L -> [1L]
-    | s when isEven(digitCount s) ->
-        let halfway = digitCount s / 2
-        let l, r = Math.DivRem(s, pown 10 halfway)
-        [l; r]
-    | s -> [s * 2024L]
+    if memo.ContainsKey stone
+    then
+        memo.GetValueOrDefault stone
+    else
+        let result =
+            match stone with
+            | 0L -> [1L]
+            | s when isEven(digitCount s) ->
+                let halfway = digitCount s / 2
+                let l, r = Math.DivRem(s, pown 10 halfway)
+                [l; r]
+            | s -> [s * 2024L]
+        memo.Add(stone, result)
+        result
 
 let combinedCollect times list =
     List.fold (fun acc _ -> List.collect checkStone acc) list [1..times]
@@ -37,4 +46,4 @@ let measureTime label f =
     printfn $"""%s{label}: %d{result} ({watch.ElapsedFriendly})"""
 
 measureTime "前" (fun _ -> input |> combinedCollect 25 |> _.Length)
-// measureTime "後" (fun _ -> input |> combinedCollect 75 |> _.Length)
+measureTime "後" (fun _ -> input |> combinedCollect 75 |> _.Length)

@@ -37,11 +37,20 @@ let checkStone (stone: int64) =
         memo.Add(stone, result)
         result
 
+// let combinedCollect times list =
+//     printfn $"Iterations: " // TODO: Delete after debugging.
+//     List.fold (fun acc i ->
+//         printf $"#{i} " // TODO: Delete after debugging.
+//         List.collect checkStone acc) list [1..times]
+
 let combinedCollect times list =
-    printfn $"Iterations: " // TODO: Delete after debugging.
-    List.fold (fun acc i ->
-        printf $"#{i} " // TODO: Delete after debugging.
-        List.collect checkStone acc) list [1..times]
+    let mutable current = list
+    for _ in 1 .. times do
+        let builder = System.Collections.Generic.List<_>()
+        for item in current do
+            builder.AddRange(checkStone item)
+        current <- List.ofSeq builder
+    current
 
 let measureTime label f =
     let watch = Startwatch.Library.Watch()

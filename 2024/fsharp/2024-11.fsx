@@ -18,7 +18,7 @@ let digitCount (n: int64) =
 
 let isEven i = i % 2 = 0
 
-let memo = Dictionary<int64, int64 list>()
+let memo = Dictionary<int64, int64 list>(10000000)
 
 let checkStone (stone: int64) =
     if stone < 0 then failwith $"A negative value was passed in. This is bad."
@@ -56,22 +56,25 @@ let checkStone (stone: int64) =
 //         memo.Add(stone, result)
 //         result
 
-let combinedCollect times list =
-    printfn $"Iterations: " // TODO: Delete after debugging.
-    List.fold (fun acc i ->
-        printf $"#{i} " // TODO: Delete after debugging.
-        List.collect checkStone acc) list [1..times]
-
 // let combinedCollect times list =
-//     let mutable current = list
-//     for _ in 1 .. times do
-//         // Create a mutable builder to accumulate the next result.
-//         let builder = System.Collections.Generic.List<_>()
-//         for item in current do
-//             builder.AddRange(checkStone item)
-//         // Convert the builder (a sequence) back to an F# list.
-//         current <- List.ofSeq builder
-//     current
+//     printfn $"Iterations: " // TODO: Delete after debugging.
+//     List.fold (fun acc i ->
+//         printf $"#{i} " // TODO: Delete after debugging.
+//         List.collect checkStone acc) list [1..times]
+
+let combinedCollect times list =
+    let mutable current = list
+    printfn $"Iterations: " // TODO: Delete after debugging.
+
+    for i in 1 .. times do
+        printf $"#{i} " // TODO: Delete after debugging.
+        // Create a mutable builder to accumulate the next result.
+        let builder = System.Collections.Generic.List<_>()
+        for item in current do
+            builder.AddRange(checkStone item)
+        // Convert the builder (a sequence) back to an F# list.
+        current <- List.ofSeq builder
+    current
 
 let measureTime label f =
     let watch = Startwatch.Library.Watch()
@@ -79,4 +82,4 @@ let measureTime label f =
     printfn $"""%s{label}: %d{result} ({watch.ElapsedFriendly})"""
 
 measureTime "前" (fun _ -> input |> combinedCollect 25 |> _.Length)
-// measureTime "後" (fun _ -> input |> combinedCollect 75 |> _.Length)
+measureTime "後" (fun _ -> input |> combinedCollect 75 |> _.Length)
